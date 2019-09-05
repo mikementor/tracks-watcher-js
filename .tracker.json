@@ -1,0 +1,14 @@
+{
+    "apiKey":"11111",
+    "projectKey":"1567261122032",
+    "triggers":{
+        "Сompiled":{
+            "type":"regex",
+            "regex":"compiled"
+        },
+        "Error":{
+            "type":"regex",
+            "regex":"failed"
+        }
+    }
+}

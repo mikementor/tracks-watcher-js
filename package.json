@@ -1,0 +1,15 @@
+{
+  "name": "@mike.mentor/tracks-watcher-js",
+  "version": "1.7.0",
+  "description": "[DO NOT USE].Small watch script, that triggers from console output and send notification  to dashboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "mikementor/tracks-watcher-js",
+  "author": "mikementor",
+  "license": "ISC",
+  "bin": {
+    "track":"./index.js"
+  }
+}
