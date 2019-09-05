@@ -82,13 +82,19 @@ process.stdin.pipe(cmd.stdin)
 cmd.stdout.pipe(process.stdout)
 cmd.stderr.pipe(process.stderr)
 cmd.stdout.on('data', (data) => {
-    if (typeof data === 'string')
-        Object.keys(triggers).map(key => {
-            if (triggers[key].type == 'regex' && new RegExp(triggers[key].regex).exec(data)) {
-                console.log(`[tracker]: push`);
-                sendPush(data, key)
-            }
-        })
+    let _data;
+    if (data instanceof Buffer) {
+        _data = data.toString('utf8')
+    }
+    if (typeof data === 'string') {
+        _data = data;
+    }
+    Object.keys(triggers).map(key => {
+        if (triggers[key].type == 'regex' && new RegExp(triggers[key].regex).exec(_data)) {
+            console.log(`[tracker]: push`);
+            sendPush(_data, key)
+        }
+    })
 
 });
 cmd.stderr.on('data', (data) => {
