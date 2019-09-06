@@ -9,7 +9,7 @@ const errKey = '[tracker] error:'
 const exitKey = signal => `process exited with signal ${signal}`
 let cmdExited = false;
 const config = {
-    pushUrl: 'https://tranquil-spire-64208.herokuapp.com/cli'
+    pushUrl: 'ws://tranquil-spire-64208.herokuapp.com/cli'
 }
 const configPath = path.resolve(process.cwd(), '.tracker.json')
 const options = { ...require(configPath), ...config };
@@ -29,12 +29,21 @@ const decCounter = () => {
     }
 }
 
-
+const WebSocket = require('ws');
+ 
+const ws = new WebSocket(url);
+ws.on('open', function open() {
+    console.log('[tracker]: connected');
+  });
+   
+  ws.on('close', function close() {
+    console.log('[tracker]: disconnected');
+  });
+ws.on('message', function incoming(data) {
+    console.log(`[tracker]`+data);
+  });
 const sendPush = (content, trigger) => {
-    const opts = {
-        method: 'POST',
-        url: url,
-        data: {
+    const  data={
             command: process.argv[2],
             content: content,
             context: {
@@ -45,38 +54,36 @@ const sendPush = (content, trigger) => {
                 projectKey: projectKey
             }
         },
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
-    console.log(`[tracker]: sending:${JSON.stringify(opts)}`)
+     
+    console.log(`[tracker]: sending:${JSON.stringify(data)}`)
     counter++;
-    axios(opts).then(res => {
-        console.log(`[tracker]: push sent, response: ${JSON.stringify(res.data)}`);
-        decCounter();
-    }).catch(error => {
-        if (error.response) {
-            /*
-             * The request was made and the server responded with a
-             * status code that falls out of the range of 2xx
-             */
-            console.log(`[tracker]: data: ` + JSON.stringify(error.response.data));
-            console.log(`[tracker]: status: ` + error.response.status);
-            console.log(`[tracker]: headers: ` + JSON.stringify(error.response.headers));
-        } else if (error.request) {
-            /*
-             * The request was made but no response was received, `error.request`
-             * is an instance of XMLHttpRequest in the browser and an instance
-             * of http.ClientRequest in Node.js
-             */
-            console.log(`[tracker]: request: ` + error.request);
-        } else {
-            // Something happened in setting up the request and triggered an Error
-            console.log(`[tracker]: message: `, error.message);
-        }
-        console.log(`[tracker]: error: ` + error);
-        decCounter();
-    })
+    ws.send(data.toString());
+    // axios(opts).then(res => {
+    //     console.log(`[tracker]: push sent, response: ${JSON.stringify(res.data)}`);
+    //     decCounter();
+    // }).catch(error => {
+    //     if (error.response) {
+    //         /*
+    //          * The request was made and the server responded with a
+    //          * status code that falls out of the range of 2xx
+    //          */
+    //         console.log(`[tracker]: data: ` + JSON.stringify(error.response.data));
+    //         console.log(`[tracker]: status: ` + error.response.status);
+    //         console.log(`[tracker]: headers: ` + JSON.stringify(error.response.headers));
+    //     } else if (error.request) {
+    //         /*
+    //          * The request was made but no response was received, `error.request`
+    //          * is an instance of XMLHttpRequest in the browser and an instance
+    //          * of http.ClientRequest in Node.js
+    //          */
+    //         console.log(`[tracker]: request: ` + error.request);
+    //     } else {
+    //         // Something happened in setting up the request and triggered an Error
+    //         console.log(`[tracker]: message: `, error.message);
+    //     }
+    //     console.log(`[tracker]: error: ` + error);
+    //     decCounter();
+    // })
 }
 
 const cmd = spawn(command, args);

@@ -1,6 +1,6 @@
 {
   "name": "@mike.mentor/tracks-watcher-js",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "[DO NOT USE].Small watch script, that triggers from console output and send notification  to dashboard",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
     "track": "./index.js"
   },
   "dependencies": {
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "ws": "^7.1.2"
   }
 }
