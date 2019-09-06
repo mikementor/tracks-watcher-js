@@ -36,12 +36,12 @@ const sendPush = (content, trigger) => {
         data: {
             command: process.argv[2],
             content: content,
-            dir: process.argv.toString(),
-            // data: {
-            //     trigger: trigger,
-            //     apiKey: apiKey,
-            //     projectKey: projectKey
-            // }
+            context: {
+                dir: process.argv.toString(),
+                trigger: trigger,
+                apiKey: apiKey,
+                projectKey: projectKey
+            }
         },
         headers: {
             "Content-Type": "application/json"
