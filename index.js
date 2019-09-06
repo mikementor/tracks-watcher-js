@@ -2,6 +2,7 @@
 const path = require('path')
 const { spawn } = require('child_process');
 const axios = require('axios');
+const moment = require('moment');
 const command = process.argv[2]
 const args = process.argv.slice(3);
 const errKey = '[tracker] error:'
@@ -37,6 +38,7 @@ const sendPush = (content, trigger) => {
             command: process.argv[2],
             content: content,
             context: {
+                start_time:moment()
                 dir: process.argv.toString(),
                 trigger: trigger,
                 apiKey: apiKey,

@@ -1,6 +1,6 @@
 {
   "name": "@mike.mentor/tracks-watcher-js",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "[DO NOT USE].Small watch script, that triggers from console output and send notification  to dashboard",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,9 @@
   "author": "mikementor",
   "license": "ISC",
   "bin": {
-    "track":"./index.js"
+    "track": "./index.js"
+  },
+  "dependencies": {
+    "moment": "^2.24.0"
   }
 }
