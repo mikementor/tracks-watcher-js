@@ -38,7 +38,7 @@ const sendPush = (content, trigger) => {
             command: process.argv[2],
             content: content,
             context: {
-                start_time:moment()
+                start_time:moment(),
                 dir: process.argv.toString(),
                 trigger: trigger,
                 apiKey: apiKey,
